@@ -8,11 +8,31 @@ export default function FeedbackForm() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const feedbackOptions = [
+    "Great service!",
+    "I had a wonderful experience.",
+    "The product quality is excellent.",
+    "I would recommend this to others.",
+    "I am not satisfied with the service.",
+  ];
 
   const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    if (e.target.name === "message") {
+      const input = e.target.value.toLowerCase();
+      const filteredSuggestions = feedbackOptions.filter(option =>
+        option.toLowerCase().includes(input)
+      );
+      setSuggestions(filteredSuggestions);
+    }
+  };
+
+  const selectSuggestion = (suggestion) => {
+    setForm({ ...form, message: suggestion });
+    setSuggestions([]); // Clear suggestions after selection
   };
 
   const handleSubmit = async (e) => {
@@ -79,13 +99,28 @@ export default function FeedbackForm() {
         value={form.email}
         onChange={handleChange}
       />
-      <textarea
-        name="message"
-        placeholder="Your Feedback"
-        className="w-full p-2 border rounded h-24"
-        value={form.message}
-        onChange={handleChange}
-      />
+      <div className="relative">
+        <textarea
+          name="message"
+          placeholder="Your Feedback"
+          className="w-full p-2 border rounded h-24"
+          value={form.message}
+          onChange={handleChange}
+        />
+        {suggestions.length > 0 && (
+          <ul className="absolute z-10 bg-blue-950 border rounded shadow mt-1 w-full">
+            {suggestions.map((suggestion, index) => (
+              <li
+                key={index}
+                className="p-2 cursor-pointer hover:bg-gray-800"
+                onClick={() => selectSuggestion(suggestion)}
+              >
+                {suggestion}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       <button
         type="submit"
         className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
