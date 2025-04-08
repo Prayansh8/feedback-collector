@@ -1,9 +1,14 @@
 [build]
-  command = "npm run build"
-  publish = "out"  # Use "out" if you are using next export
-
-[dev]
-  command = "npm run dev"  # Optional: command to run during development
+command = "npm run build"
+publish = ".next"
 
 [functions]
-  directory = "netlify/functions"  # Optional: directory for serverless functions
+directory = "netlify/functions"
+
+[dev]
+framework = "next"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
