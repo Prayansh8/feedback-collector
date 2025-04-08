@@ -33,11 +33,12 @@ export default function FeedbackForm() {
     setLoading(true);
     try {
       const newFeedbackId = Date.now();
-      await addDoc(collection(db, "feedback"), {
+      const currentDateTime = new Date().toISOString();
+      await addDoc(collection(db, "feedbacks"), {
         name: form.name,
         email: form.email,
         message: form.message,
-        createdAt: new Date(),
+        createdAt: currentDateTime,
       });
 
       const feedbackRef = ref(database, 'feedback/' + newFeedbackId);
@@ -45,7 +46,7 @@ export default function FeedbackForm() {
         name: form.name,
         email: form.email,
         message: form.message,
-        createdAt: new Date(),
+        createdAt: currentDateTime,
       });
 
       setSubmitted(true);

@@ -13,13 +13,13 @@ export default function Home() {
         <h1 className="text-3xl font-bold text-center mb-6">Feedback Collector</h1>
 
         <div className="flex justify-between items-center mb-6">
-          <ToggleButton onClick={() => setShowAdmin(!showAdmin)} showAdmin={showAdmin} />
-          <button
+          {/* <button
             onClick={() => document.documentElement.classList.toggle("dark")}
             className="px-3 py-2 border rounded"
           >
             Toggle Theme
-          </button>
+          </button> */}
+          <ToggleButton onClick={() => setShowAdmin(!showAdmin)} showAdmin={showAdmin} />
         </div>
 
         {showAdmin ? <FeedbackList /> : <FeedbackForm />}
