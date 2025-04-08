@@ -32,6 +32,7 @@ export default function FeedbackForm() {
 
     setLoading(true);
     try {
+      const newFeedbackId = Date.now();
       await addDoc(collection(db, "feedback"), {
         name: form.name,
         email: form.email,
@@ -39,14 +40,13 @@ export default function FeedbackForm() {
         createdAt: new Date(),
       });
 
-      // Optionally, you can also write to the Realtime Database
-      // const feedbackRef = ref(database, 'feedback/' + newFeedbackId);
-      // await set(feedbackRef, {
-      //   name: form.name,
-      //   email: form.email,
-      //   message: form.message,
-      //   createdAt: new Date(),
-      // });
+      const feedbackRef = ref(database, 'feedback/' + newFeedbackId);
+      await set(feedbackRef, {
+        name: form.name,
+        email: form.email,
+        message: form.message,
+        createdAt: new Date(),
+      });
 
       setSubmitted(true);
       setForm({ name: "", email: "", message: "" });
